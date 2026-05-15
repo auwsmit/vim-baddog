@@ -1,55 +1,38 @@
-"      _               _                 _  __
-"     | |__   __ _  __| | __      _____ | |/ _|
-"     | '_ \ / _` |/ _` | \ \ /\ / / _ \| | |_
-"     | |_) | (_| | (_| |  \ V  V / (_) | |  _|
-"     |_.__/ \__,_|\__,_|   \_/\_/ \___/|_|_|
-"
-"      I am the Bad Wolf. I create myself.
-"       I take the words. I scatter them in time and space.
-"        A message to lead myself here.
-"
-" A Vim colorscheme pieced together by Steve Losh.
-" Available at http://stevelosh.com/projects/badwolf/
-"
-" Why? {{{
-"
-" After using Molokai for quite a long time, I started longing for
-" a replacement.
-"
-" I love Molokai's high contrast and gooey, saturated tones, but it can be
-" a little inconsistent at times.
-"
-" Also it's winter here in Rochester, so I wanted a color scheme that's a bit
-" warmer.  A little less blue and a bit more red.
-"
-" And so Bad Wolf was born.  I'm no designer, but designers have been scattering
-" beautiful colors through time and space long before I came along.  I took
-" advantage of that and reused some of my favorites to lead me to this scheme.
-"
-" }}}
-
-" Supporting code -------------------------------------------------------------
-" Preamble {{{
-
 if !has("gui_running") && &t_Co != 88 && &t_Co != 256
     finish
 endif
 
-highlight clear
 set background=dark
 
+" completely reset highlights
+highlight clear
 if exists("syntax_on")
     syntax reset
 endif
 
-let g:colors_name = "badwolf"
+" Neovim 0.10 changed default highlight groups,
+" so this is needed to make them the more like Vim
+"
+" just running `:colorscheme vim` doesn't work,
+" so source a local copy as a workaround
+if has('nvim-0.10')
+    exec 'luafile '. expand('<script>:p:h') .'/vim.lua'
+endif
 
-if !exists("g:badwolf_html_link_underline") " {{{
-    let g:badwolf_html_link_underline = 1
+" Check if treesitter is installed, and if so, set overrides to more
+" closely match the correct highlighting
+if has('nvim') && (exists('TSInstall') == 2)
+    exec 'luafile '. expand('<script>:p:h') .'/treesitter_overrides.lua'
+endif
+
+let g:colors_name = "baddog"
+
+if !exists("g:baddog_html_link_underline") " {{{
+    let g:baddog_html_link_underline = 1
 endif " }}}
 
-if !exists("g:badwolf_css_props_highlight") " {{{
-    let g:badwolf_css_props_highlight = 0
+if !exists("g:baddog_css_props_highlight") " {{{
+    let g:baddog_css_props_highlight = 0
 endif " }}}
 
 " }}}
@@ -155,20 +138,34 @@ endfunction
 " }}}
 " Configuration Options {{{
 
-if exists('g:badwolf_darkgutter') && g:badwolf_darkgutter
-    let s:gutter = 'blackestgravel'
-else
+if exists('g:baddog_lightgutter') && g:baddog_lightgutter
     let s:gutter = 'blackgravel'
+else
+    let s:gutter = 'blackestgravel'
 endif
 
-if exists('g:badwolf_tabline')
-    if g:badwolf_tabline == 0
+if exists('g:baddog_folded')
+    if g:baddog_folded == 0
+        let s:folded = 'blackestgravel'
+    elseif  g:baddog_folded == 1
+        let s:folded = 'blackgravel'
+    elseif  g:baddog_folded == 2
+        let s:folded = 'darkgravel'
+    else
+        let s:folded = 'blackgravel'
+    endif
+else
+    let s:folded = 'blackgravel'
+endif
+
+if exists('g:baddog_tabline')
+    if g:baddog_tabline == 0
         let s:tabline = 'blackestgravel'
-    elseif  g:badwolf_tabline == 1
+    elseif  g:baddog_tabline == 1
         let s:tabline = 'blackgravel'
-    elseif  g:badwolf_tabline == 2
+    elseif  g:baddog_tabline == 2
         let s:tabline = 'darkgravel'
-    elseif  g:badwolf_tabline == 3
+    elseif  g:baddog_tabline == 3
         let s:tabline = 'deepgravel'
     else
         let s:tabline = 'blackestgravel'
@@ -186,7 +183,7 @@ endif
 
 call s:HL('Normal', 'plain', 'blackgravel')
 
-call s:HL('Folded', 'mediumgravel', 'bg', 'none')
+call s:HL('Folded', 'mediumgravel', s:folded, 'none')
 
 call s:HL('VertSplit', 'lightgravel', 'bg', 'none')
 
@@ -233,9 +230,10 @@ call s:HL('Tag', '', '', 'bold')
 " }}}
 " Gutter {{{
 
-call s:HL('LineNr',     'mediumgravel', s:gutter)
-call s:HL('SignColumn', '',             s:gutter)
-call s:HL('FoldColumn', 'mediumgravel', s:gutter)
+call s:HL('CursorLineNr', 'dalespale',    s:gutter, 'bold')
+call s:HL('LineNr',       'mediumgravel', s:gutter)
+call s:HL('SignColumn',   '',             s:gutter)
+call s:HL('FoldColumn',   'mediumgravel', s:gutter)
 
 " }}}
 " Cursor {{{
@@ -459,7 +457,7 @@ call s:HL('lispEscapeSpecial',  'orange', '', 'none')
 " }}}
 " CSS {{{
 
-if g:badwolf_css_props_highlight
+if g:baddog_css_props_highlight
     call s:HL('cssColorProp', 'taffy', '', 'none')
     call s:HL('cssBoxProp', 'taffy', '', 'none')
     call s:HL('cssTextProp', 'taffy', '', 'none')
@@ -518,7 +516,7 @@ call s:HL('htmlArg', 'coffee', '', 'none')
 
 " Stuff inside an <a> tag
 
-if g:badwolf_html_link_underline
+if g:baddog_html_link_underline
     call s:HL('htmlLink', 'lightgravel', '', 'underline')
 else
     call s:HL('htmlLink', 'lightgravel', '', 'none')
@@ -553,7 +551,7 @@ call s:HL('texComment', 'darkroast', '', 'none')
 call s:HL('texDelimiter', 'orange', '', 'none')
 call s:HL('texZone', 'brightgravel', '', 'none')
 
-augroup badwolf_tex
+augroup baddog_tex
     au!
 
     au BufRead,BufNewFile *.tex syn region texMathZoneV start="\\(" end="\\)\|%stopzone\>" keepend contains=@texMathZoneGroup
@@ -669,3 +667,4 @@ call s:HL('VimBracket', 'dress', '', 'none')
 
 " }}}
 
+" vim: set foldmethod=marker:
