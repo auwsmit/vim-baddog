@@ -16,13 +16,13 @@ endif
 " just running `:colorscheme vim` doesn't work,
 " so source a local copy as a workaround
 if has('nvim-0.10')
-    exec 'luafile '. expand('<script>:p:h') .'/vim.lua'
+    exec 'luafile '. expand('<script>:p:h:h') .'/scripts/vim.lua'
 endif
 
 " Check if treesitter is installed, and if so, set overrides to more
 " closely match the correct highlighting
 if has('nvim') && (exists('TSInstall') == 2)
-    exec 'luafile '. expand('<script>:p:h') .'/treesitter_overrides.lua'
+    exec 'luafile '. expand('<script>:p:h') .'/scripts/treesitter_settings.lua'
 endif
 
 let g:colors_name = "baddog"
