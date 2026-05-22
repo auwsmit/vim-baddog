@@ -40,27 +40,6 @@ darker than the normal background, or the same.
     " Make the gutters the same color as the background.
     let g:baddog_lightgutter = 1
 
-Default: `0` (off, gutters are darker than the background)
- ### g:baddog\_folded
-
-Determines the background color of folded lines.
-
-Can be set to `0`, `1`, or `2`
-
-    " Make folded lines darker than the background.
-    let g:baddog_folded = 0
-
-    " Make folded lines the same color as the background.
-    let g:baddog_folded = 1
-
-    " Make folded lines lighter than the background.
-    let g:baddog_folded = 2
-
-    " Make folded lines much lighter than the background.
-    let g:baddog_folded = 3
-
-Default: `1` (same color as the background)
-
 ### g:baddog\_tabline
 
 Determines how light to render the background of the tab line (the line at the

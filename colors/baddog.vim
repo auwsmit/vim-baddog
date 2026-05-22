@@ -1,3 +1,6 @@
+" Supporting code -------------------------------------------------------------
+" Preamble {{{
+
 if !has("gui_running") && &t_Co != 88 && &t_Co != 256
     finish
 endif
@@ -144,20 +147,6 @@ else
     let s:gutter = 'blackestgravel'
 endif
 
-if exists('g:baddog_folded')
-    if g:baddog_folded == 0
-        let s:folded = 'blackestgravel'
-    elseif  g:baddog_folded == 1
-        let s:folded = 'blackgravel'
-    elseif  g:baddog_folded == 2
-        let s:folded = 'darkgravel'
-    else
-        let s:folded = 'blackgravel'
-    endif
-else
-    let s:folded = 'blackgravel'
-endif
-
 if exists('g:baddog_tabline')
     if g:baddog_tabline == 0
         let s:tabline = 'blackestgravel'
@@ -183,7 +172,7 @@ endif
 
 call s:HL('Normal', 'plain', 'blackgravel')
 
-call s:HL('Folded', 'mediumgravel', s:folded, 'none')
+call s:HL('Folded', 'mediumgravel', 'bg', 'none')
 
 call s:HL('VertSplit', 'lightgravel', 'bg', 'none')
 
@@ -197,8 +186,8 @@ call s:HL('TabLineSel', 'coal', 'tardis', 'none')
 
 call s:HL('MatchParen', 'dalespale', 'darkgravel', 'bold')
 
-call s:HL('NonText',    'deepgravel', 'bg')
-call s:HL('SpecialKey', 'deepgravel', 'bg')
+call s:HL('NonText',    'deepgravel', '')
+call s:HL('SpecialKey', 'deepgravel', 'blackgravel')
 
 call s:HL('Visual',    '',  'deepgravel')
 call s:HL('VisualNOS', '',  'deepgravel')
