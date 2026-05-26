@@ -24,8 +24,8 @@ endif
 
 " Check if treesitter is installed, and if so, set overrides to more
 " closely match the correct highlighting
-if has('nvim') && (exists('TSInstall') == 2)
-    exec 'luafile '. expand('<script>:p:h') .'/scripts/treesitter_settings.lua'
+if has('nvim') && (exists(':TSInstall') == 2)
+    exec 'luafile '. expand('<script>:p:h:h') .'/scripts/treesitter_settings.lua'
 endif
 
 let g:colors_name = "baddog"
@@ -412,6 +412,17 @@ call s:HL('ShowMarksHLl', 'tardis', 'blackgravel')
 call s:HL('ShowMarksHLu', 'tardis', 'blackgravel')
 call s:HL('ShowMarksHLo', 'tardis', 'blackgravel')
 call s:HL('ShowMarksHLm', 'tardis', 'blackgravel')
+
+" }}}
+" indentLine {{{
+
+hi clear Conceal
+call s:HL('Conceal', 'deepgravel')
+
+" }}}
+" exchange {{{
+
+call s:HL('ExchangeRegion', 'coal', 'dalespale', 'bold')
 
 " }}}
 
