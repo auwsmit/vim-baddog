@@ -32,6 +32,10 @@ if !exists("g:baddog_css_props_highlight") " {{{
     let g:baddog_css_props_highlight = 0
 endif " }}}
 
+if !exists("g:baddog_no_bold") " {{{
+    let g:baddog_no_bold = 0
+endif " }}}
+
 " }}}
 " Palette {{{
 
@@ -120,7 +124,11 @@ function! s:HL(group, fg, ...)
     endif
 
     if a:0 >= 2 && strlen(a:2)
-        let histring .= 'gui=' . a:2 . ' cterm=' . a:2 . ' '
+        if exists('g:baddog_no_bold') && g:baddog_no_bold
+            let histring .= 'gui=none cterm=none '
+        else
+            let histring .= 'gui=' . a:2 . ' cterm=' . a:2 . ' '
+        endif
     endif
 
     if a:0 >= 3 && strlen(a:3)
@@ -545,12 +553,6 @@ call s:HL('VimMapMod',    'dress', '', 'none')
 call s:HL('VimMapModKey', 'dress', '', 'none')
 call s:HL('VimNotation', 'dress', '', 'none')
 call s:HL('VimBracket', 'dress', '', 'none')
-
-" }}}
-" Odin https://github.com/auwsmit/odin.vim {{{
-
-call s:HL('odinFunctionDecl', 'saltwatertaffy', '', 'none')
-call s:HL('odinProc', 'taffy', '', 'none')
 
 " }}}
 
