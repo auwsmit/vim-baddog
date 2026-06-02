@@ -22,12 +22,6 @@ if has('nvim-0.10')
     exec 'luafile '. expand('<script>:p:h:h') .'/scripts/vim.lua'
 endif
 
-" Check if treesitter is installed, and if so, set overrides to more
-" closely match the correct highlighting
-if has('nvim') && (exists(':TSInstall') == 2)
-    exec 'luafile '. expand('<script>:p:h:h') .'/scripts/treesitter_settings.lua'
-endif
-
 let g:colors_name = "baddog"
 
 if !exists("g:baddog_html_link_underline") " {{{
@@ -250,8 +244,8 @@ call s:HL('Statement',   'taffy', '', 'bold')
 call s:HL('Keyword',     'taffy', '', 'bold')
 call s:HL('Conditional', 'taffy', '', 'bold')
 call s:HL('Operator',    'taffy', '', 'none')
-call s:HL('Label',       'taffy', '', 'none')
-call s:HL('Repeat',      'taffy', '', 'none')
+call s:HL('Label',       'taffy', '', 'bold')
+call s:HL('Repeat',      'taffy', '', 'bold')
 
 " Functions and variable declarations are orange, because plain looks weird.
 call s:HL('Identifier', 'orange', '', 'none')
@@ -280,10 +274,10 @@ call s:HL('Float',  'toffee', '', 'bold')
 " Not sure what 'special character in a constant' means, but let's make it pop.
 call s:HL('SpecialChar', 'dress', '', 'bold')
 
-call s:HL('Type', 'dress', '', 'none')
+call s:HL('Type',         'dress', '', 'none')
 call s:HL('StorageClass', 'taffy', '', 'none')
-call s:HL('Structure', 'taffy', '', 'none')
-call s:HL('Typedef', 'taffy', '', 'bold')
+call s:HL('Structure',    'taffy', '', 'none')
+call s:HL('Typedef',      'taffy', '', 'bold')
 
 " Make try/catch blocks stand out.
 call s:HL('Exception', 'lime', '', 'bold')
@@ -324,96 +318,6 @@ endif
 " }}}
 " Plugins {{{
 
-" CtrlP {{{
-
-    " the message when no match is found
-    call s:HL('CtrlPNoEntries', 'snow', 'taffy', 'bold')
-
-    " the matched pattern
-    call s:HL('CtrlPMatch', 'orange', 'bg', 'none')
-
-    " the line prefix '>' in the match window
-    call s:HL('CtrlPLinePre', 'deepgravel', 'bg', 'none')
-
-    " the prompt’s base
-    call s:HL('CtrlPPrtBase', 'deepgravel', 'bg', 'none')
-
-    " the prompt’s text
-    call s:HL('CtrlPPrtText', 'plain', 'bg', 'none')
-
-    " the prompt’s cursor when moving over the text
-    call s:HL('CtrlPPrtCursor', 'coal', 'tardis', 'bold')
-
-    " 'prt' or 'win', also for 'regex'
-    call s:HL('CtrlPMode1', 'coal', 'tardis', 'bold')
-
-    " 'file' or 'path', also for the local working dir
-    call s:HL('CtrlPMode2', 'coal', 'tardis', 'bold')
-
-    " the scanning status
-    call s:HL('CtrlPStats', 'coal', 'tardis', 'bold')
-
-    " TODO: CtrlP extensions.
-    " CtrlPTabExtra  : the part of each line that’s not matched against (Comment)
-    " CtrlPqfLineCol : the line and column numbers in quickfix mode (|s:HL-Search|)
-    " CtrlPUndoT     : the elapsed time in undo mode (|s:HL-Directory|)
-    " CtrlPUndoBr    : the square brackets [] in undo mode (Comment)
-    " CtrlPUndoNr    : the undo number inside [] in undo mode (String)
-
-" }}}
-" EasyMotion {{{
-
-call s:HL('EasyMotionTarget', 'tardis',     'bg', 'bold')
-call s:HL('EasyMotionShade',  'deepgravel', 'bg')
-
-" }}}
-" Interesting Words {{{
-
-" These are only used if you're me or have copied the <leader>hNUM mappings
-" from my Vimrc.
-call s:HL('InterestingWord1', 'coal', 'orange')
-call s:HL('InterestingWord2', 'coal', 'lime')
-call s:HL('InterestingWord3', 'coal', 'saltwatertaffy')
-call s:HL('InterestingWord4', 'coal', 'toffee')
-call s:HL('InterestingWord5', 'coal', 'dress')
-call s:HL('InterestingWord6', 'coal', 'taffy')
-
-
-" }}}
-" Makegreen {{{
-
-" hi GreenBar term=reverse ctermfg=white ctermbg=green guifg=coal guibg=#9edf1c
-" hi RedBar   term=reverse ctermfg=white ctermbg=red guifg=white guibg=#C50048
-
-" }}}
-" Rainbow Parentheses {{{
-
-call s:HL('level16c', 'mediumgravel',   '', 'bold')
-call s:HL('level15c', 'dalespale',      '', '')
-call s:HL('level14c', 'dress',          '', '')
-call s:HL('level13c', 'orange',         '', '')
-call s:HL('level12c', 'tardis',         '', '')
-call s:HL('level11c', 'lime',           '', '')
-call s:HL('level10c', 'toffee',         '', '')
-call s:HL('level9c',  'saltwatertaffy', '', '')
-call s:HL('level8c',  'coffee',         '', '')
-call s:HL('level7c',  'dalespale',      '', '')
-call s:HL('level6c',  'dress',          '', '')
-call s:HL('level5c',  'orange',         '', '')
-call s:HL('level4c',  'tardis',         '', '')
-call s:HL('level3c',  'lime',           '', '')
-call s:HL('level2c',  'toffee',         '', '')
-call s:HL('level1c',  'saltwatertaffy', '', '')
-
-" }}}
-" ShowMarks {{{
-
-call s:HL('ShowMarksHLl', 'tardis', 'blackgravel')
-call s:HL('ShowMarksHLu', 'tardis', 'blackgravel')
-call s:HL('ShowMarksHLo', 'tardis', 'blackgravel')
-call s:HL('ShowMarksHLm', 'tardis', 'blackgravel')
-
-" }}}
 " indentLine {{{
 
 hi clear Conceal
@@ -564,12 +468,6 @@ augroup END
 call s:HL('lessVariable', 'lime', '', 'none')
 
 " }}}
-" Lispyscript {{{
-
-call s:HL('lispyscriptDefMacro', 'lime', '', '')
-call s:HL('lispyscriptRepeat', 'dress', '', 'none')
-
-" }}}
 " REPLs {{{
 " This isn't a specific plugin, but just useful highlight classes for anything
 " that might want to use them.
@@ -639,21 +537,6 @@ call s:HL('pythonRun',         'gravel', '', 'bold')
 call s:HL('pythonCoding',      'gravel', '', 'bold')
 
 " }}}
-" SLIMV {{{
-
-" Rainbow parentheses
-call s:HL('hlLevel0', 'gravel')
-call s:HL('hlLevel1', 'orange')
-call s:HL('hlLevel2', 'saltwatertaffy')
-call s:HL('hlLevel3', 'dress')
-call s:HL('hlLevel4', 'coffee')
-call s:HL('hlLevel5', 'dirtyblonde')
-call s:HL('hlLevel6', 'orange')
-call s:HL('hlLevel7', 'saltwatertaffy')
-call s:HL('hlLevel8', 'dress')
-call s:HL('hlLevel9', 'coffee')
-
-" }}}
 " Vim {{{
 
 call s:HL('VimCommentTitle', 'lightgravel', '', 'bold')
@@ -662,6 +545,12 @@ call s:HL('VimMapMod',    'dress', '', 'none')
 call s:HL('VimMapModKey', 'dress', '', 'none')
 call s:HL('VimNotation', 'dress', '', 'none')
 call s:HL('VimBracket', 'dress', '', 'none')
+
+" }}}
+" Odin https://github.com/auwsmit/odin.vim {{{
+
+call s:HL('odinFunctionDecl', 'saltwatertaffy', '', 'none')
+call s:HL('odinProc', 'taffy', '', 'none')
 
 " }}}
 
