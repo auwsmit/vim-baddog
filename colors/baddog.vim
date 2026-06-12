@@ -19,7 +19,7 @@ endif
 " just running `:colorscheme vim` doesn't work,
 " so source a local copy as a workaround
 if has('nvim-0.10')
-    exec 'luafile '. expand('<script>:p:h:h') .'/scripts/vim.lua'
+    execute 'luafile '. expand('<script>:p:h:h') .'/scripts/vim.lua'
 endif
 
 let g:colors_name = "baddog"
@@ -34,6 +34,10 @@ endif " }}}
 
 if !exists("g:baddog_no_bold") " {{{
     let g:baddog_no_bold = 0
+endif " }}}
+
+if !exists("g:baddog_treesitter_config") " {{{
+    let g:baddog_treesitter_config = 1
 endif " }}}
 
 " }}}
@@ -182,9 +186,9 @@ call s:HL('CursorLine',   '', 'darkgravel', 'none')
 call s:HL('CursorColumn', '', 'darkgravel')
 call s:HL('ColorColumn',  '', 'darkgravel')
 
-call s:HL('TabLine', 'plain', s:tabline, 'none')
+call s:HL('TabLine',     'plain', s:tabline, 'none')
 call s:HL('TabLineFill', 'plain', s:tabline, 'none')
-call s:HL('TabLineSel', 'coal', 'tardis', 'none')
+call s:HL('TabLineSel',  'coal',  'tardis',  'none')
 
 call s:HL('MatchParen', 'dalespale', 'darkgravel', 'bold')
 
@@ -298,9 +302,9 @@ call s:HL('Ignore', 'gravel', '',      '')
 " }}}
 " Completion Menu {{{
 
-call s:HL('Pmenu', 'plain', 'deepergravel')
-call s:HL('PmenuSel', 'coal', 'tardis', 'bold')
-call s:HL('PmenuSbar', '', 'deepergravel')
+call s:HL('Pmenu',      'plain', 'deepergravel')
+call s:HL('PmenuSel',   'coal',  'tardis', 'bold')
+call s:HL('PmenuSbar',  '',      'deepergravel')
 call s:HL('PmenuThumb', 'brightgravel')
 
 " }}}
@@ -315,10 +319,10 @@ call s:HL('DiffText',   'snow', 'deepergravel', 'bold')
 " Spelling {{{
 
 if has("spell")
-    call s:HL('SpellCap', 'dalespale', 'bg', 'undercurl,bold', 'dalespale')
-    call s:HL('SpellBad', '', 'bg', 'undercurl', 'dalespale')
-    call s:HL('SpellLocal', '', '', 'undercurl', 'dalespale')
-    call s:HL('SpellRare', '', '', 'undercurl', 'dalespale')
+    call s:HL('SpellCap',   'dalespale', 'bg', 'undercurl,bold', 'dalespale')
+    call s:HL('SpellBad',   '',          'bg', 'undercurl',      'dalespale')
+    call s:HL('SpellLocal', '',          '',   'undercurl',      'dalespale')
+    call s:HL('SpellRare',  '',          '',   'undercurl',      'dalespale')
 endif
 
 " }}}
@@ -326,6 +330,21 @@ endif
 " }}}
 " Plugins {{{
 
+" {{{ Treesitter
+
+if has('nvim') && exists('g:baddog_treesitter_config') && g:baddog_treesitter_config
+    lua << EOF
+    vim.api.nvim_set_hl(0, '@property', {})
+    vim.api.nvim_set_hl(0, '@variable.member', {})
+    vim.api.nvim_set_hl(0, '@variable', {})
+    vim.api.nvim_set_hl(0, '@variable.parameter', {})
+    vim.api.nvim_set_hl(0, '@function.macro', {})
+    vim.api.nvim_set_hl(0, '@type.builtin', { link = 'Type' })
+EOF
+endif
+
+
+" }}}
 " indentLine {{{
 
 hi clear Conceal
@@ -370,192 +389,192 @@ call s:HL('lispEscapeSpecial',  'orange', '', 'none')
 " CSS {{{
 
 if g:baddog_css_props_highlight
-    call s:HL('cssColorProp', 'taffy', '', 'none')
-    call s:HL('cssBoxProp', 'taffy', '', 'none')
-    call s:HL('cssTextProp', 'taffy', '', 'none')
-    call s:HL('cssRenderProp', 'taffy', '', 'none')
+    call s:HL('cssColorProp',            'taffy', '', 'none')
+    call s:HL('cssBoxProp',              'taffy', '', 'none')
+    call s:HL('cssTextProp',             'taffy', '', 'none')
+    call s:HL('cssRenderProp',           'taffy', '', 'none')
     call s:HL('cssGeneratedContentProp', 'taffy', '', 'none')
 else
-    call s:HL('cssColorProp', 'fg', '', 'none')
-    call s:HL('cssBoxProp', 'fg', '', 'none')
-    call s:HL('cssTextProp', 'fg', '', 'none')
-    call s:HL('cssRenderProp', 'fg', '', 'none')
+    call s:HL('cssColorProp',            'fg', '', 'none')
+    call s:HL('cssBoxProp',              'fg', '', 'none')
+    call s:HL('cssTextProp',             'fg', '', 'none')
+    call s:HL('cssRenderProp',           'fg', '', 'none')
     call s:HL('cssGeneratedContentProp', 'fg', '', 'none')
-end
+    end
 
-call s:HL('cssValueLength', 'toffee', '', 'bold')
-call s:HL('cssColor', 'toffee', '', 'bold')
-call s:HL('cssBraces', 'lightgravel', '', 'none')
-call s:HL('cssIdentifier', 'orange', '', 'bold')
-call s:HL('cssClassName', 'orange', '', 'none')
+    call s:HL('cssValueLength', 'toffee',      '', 'bold')
+    call s:HL('cssColor',       'toffee',      '', 'bold')
+    call s:HL('cssBraces',      'lightgravel', '', 'none')
+    call s:HL('cssIdentifier',  'orange',      '', 'bold')
+    call s:HL('cssClassName',   'orange',      '', 'none')
 
-" }}}
-" Diff {{{
+    " }}}
+    " Diff {{{
 
-call s:HL('gitDiff', 'lightgravel', '',)
+    call s:HL('gitDiff', 'lightgravel', '',)
 
-call s:HL('diffRemoved', 'dress', '',)
-call s:HL('diffAdded', 'lime', '',)
-call s:HL('diffFile', 'coal', 'taffy', 'bold')
-call s:HL('diffNewFile', 'coal', 'taffy', 'bold')
+    call s:HL('diffRemoved', 'dress', '',)
+    call s:HL('diffAdded',   'lime',  '',)
+    call s:HL('diffFile',    'coal',  'taffy', 'bold')
+    call s:HL('diffNewFile', 'coal',  'taffy', 'bold')
 
-call s:HL('diffLine', 'coal', 'orange', 'bold')
-call s:HL('diffSubname', 'orange', '', 'none')
+    call s:HL('diffLine',    'coal',   'orange', 'bold')
+    call s:HL('diffSubname', 'orange', '',       'none')
 
-" }}}
-" Django Templates {{{
+    " }}}
+    " Django Templates {{{
 
-call s:HL('djangoArgument', 'dirtyblonde', '',)
-call s:HL('djangoTagBlock', 'orange', '')
-call s:HL('djangoVarBlock', 'orange', '')
-" hi djangoStatement guifg=#ff3853 gui=bold
-" hi djangoVarBlock guifg=#f4cf86
+    call s:HL('djangoArgument', 'dirtyblonde', '',)
+    call s:HL('djangoTagBlock', 'orange', '')
+    call s:HL('djangoVarBlock', 'orange', '')
+    " hi djangoStatement guifg=#ff3853 gui=bold
+    " hi djangoVarBlock guifg=#f4cf86
 
-" }}}
-" HTML {{{
+    " }}}
+    " HTML {{{
 
-" Punctuation
-call s:HL('htmlTag',    'darkroast', 'bg', 'none')
-call s:HL('htmlEndTag', 'darkroast', 'bg', 'none')
+    " Punctuation
+    call s:HL('htmlTag',    'darkroast', 'bg', 'none')
+    call s:HL('htmlEndTag', 'darkroast', 'bg', 'none')
 
-" Tag names
-call s:HL('htmlTagName',        'coffee', '', 'bold')
-call s:HL('htmlSpecialTagName', 'coffee', '', 'bold')
-call s:HL('htmlSpecialChar',    'lime',   '', 'none')
+    " Tag names
+    call s:HL('htmlTagName',        'coffee', '', 'bold')
+    call s:HL('htmlSpecialTagName', 'coffee', '', 'bold')
+    call s:HL('htmlSpecialChar',    'lime',   '', 'none')
 
-" Attributes
-call s:HL('htmlArg', 'coffee', '', 'none')
+    " Attributes
+    call s:HL('htmlArg', 'coffee', '', 'none')
 
-" Stuff inside an <a> tag
+    " Stuff inside an <a> tag
 
-if g:baddog_html_link_underline
-    call s:HL('htmlLink', 'lightgravel', '', 'underline')
-else
-    call s:HL('htmlLink', 'lightgravel', '', 'none')
-endif
+    if g:baddog_html_link_underline
+        call s:HL('htmlLink', 'lightgravel', '', 'underline')
+    else
+        call s:HL('htmlLink', 'lightgravel', '', 'none')
+    endif
 
-" }}}
-" Java {{{
+    " }}}
+    " Java {{{
 
-call s:HL('javaClassDecl', 'taffy', '', 'bold')
-call s:HL('javaScopeDecl', 'taffy', '', 'bold')
-call s:HL('javaCommentTitle', 'gravel', '')
-call s:HL('javaDocTags', 'snow', '', 'none')
-call s:HL('javaDocParam', 'dalespale', '', '')
+    call s:HL('javaClassDecl',    'taffy',     '', 'bold')
+    call s:HL('javaScopeDecl',    'taffy',     '', 'bold')
+    call s:HL('javaCommentTitle', 'gravel',    '')
+    call s:HL('javaDocTags',      'snow',      '', 'none')
+    call s:HL('javaDocParam',     'dalespale', '', '')
 
-" }}}
-" LaTeX {{{
+    " }}}
+    " LaTeX {{{
 
-call s:HL('texStatement', 'tardis', '', 'none')
-call s:HL('texMathZoneX', 'orange', '', 'none')
-call s:HL('texMathZoneA', 'orange', '', 'none')
-call s:HL('texMathZoneB', 'orange', '', 'none')
-call s:HL('texMathZoneC', 'orange', '', 'none')
-call s:HL('texMathZoneD', 'orange', '', 'none')
-call s:HL('texMathZoneE', 'orange', '', 'none')
-call s:HL('texMathZoneV', 'orange', '', 'none')
-call s:HL('texMathZoneX', 'orange', '', 'none')
-call s:HL('texMath', 'orange', '', 'none')
-call s:HL('texMathMatcher', 'orange', '', 'none')
-call s:HL('texRefLabel', 'dirtyblonde', '', 'none')
-call s:HL('texRefZone', 'lime', '', 'none')
-call s:HL('texComment', 'darkroast', '', 'none')
-call s:HL('texDelimiter', 'orange', '', 'none')
-call s:HL('texZone', 'brightgravel', '', 'none')
+    call s:HL('texStatement',   'tardis',       '', 'none')
+    call s:HL('texMathZoneX',   'orange',       '', 'none')
+    call s:HL('texMathZoneA',   'orange',       '', 'none')
+    call s:HL('texMathZoneB',   'orange',       '', 'none')
+    call s:HL('texMathZoneC',   'orange',       '', 'none')
+    call s:HL('texMathZoneD',   'orange',       '', 'none')
+    call s:HL('texMathZoneE',   'orange',       '', 'none')
+    call s:HL('texMathZoneV',   'orange',       '', 'none')
+    call s:HL('texMathZoneX',   'orange',       '', 'none')
+    call s:HL('texMath',        'orange',       '', 'none')
+    call s:HL('texMathMatcher', 'orange',       '', 'none')
+    call s:HL('texRefLabel',    'dirtyblonde',  '', 'none')
+    call s:HL('texRefZone',     'lime',         '', 'none')
+    call s:HL('texComment',     'darkroast',    '', 'none')
+    call s:HL('texDelimiter',   'orange',       '', 'none')
+    call s:HL('texZone',        'brightgravel', '', 'none')
 
-augroup baddog_tex
-    au!
+    augroup baddog_tex
+        au!
 
-    au BufRead,BufNewFile *.tex syn region texMathZoneV start="\\(" end="\\)\|%stopzone\>" keepend contains=@texMathZoneGroup
-    au BufRead,BufNewFile *.tex syn region texMathZoneX start="\$" skip="\\\\\|\\\$" end="\$\|%stopzone\>" keepend contains=@texMathZoneGroup
-augroup END
+        au BufRead,BufNewFile *.tex syn region texMathZoneV start="\\(" end="\\)\|%stopzone\>" keepend contains=@texMathZoneGroup
+        au BufRead,BufNewFile *.tex syn region texMathZoneX start="\$" skip="\\\\\|\\\$" end="\$\|%stopzone\>" keepend contains=@texMathZoneGroup
+    augroup END
 
-" }}}
-" LessCSS {{{
+    " }}}
+    " LessCSS {{{
 
-call s:HL('lessVariable', 'lime', '', 'none')
+    call s:HL('lessVariable', 'lime', '', 'none')
 
-" }}}
-" REPLs {{{
-" This isn't a specific plugin, but just useful highlight classes for anything
-" that might want to use them.
+    " }}}
+    " REPLs {{{
+    " This isn't a specific plugin, but just useful highlight classes for anything
+    " that might want to use them.
 
-call s:HL('replPrompt', 'tardis', '', 'bold')
+    call s:HL('replPrompt', 'tardis', '', 'bold')
 
-" }}}
-" Mail {{{
+    " }}}
+    " Mail {{{
 
-call s:HL('mailSubject', 'orange', '', 'bold')
-call s:HL('mailHeader', 'lightgravel', '', '')
-call s:HL('mailHeaderKey', 'lightgravel', '', '')
-call s:HL('mailHeaderEmail', 'snow', '', '')
-call s:HL('mailURL', 'toffee', '', 'underline')
-call s:HL('mailSignature', 'gravel', '', 'none')
+    call s:HL('mailSubject',     'orange',      '', 'bold')
+    call s:HL('mailHeader',      'lightgravel', '', '')
+    call s:HL('mailHeaderKey',   'lightgravel', '', '')
+    call s:HL('mailHeaderEmail', 'snow',        '', '')
+    call s:HL('mailURL',         'toffee',      '', 'underline')
+    call s:HL('mailSignature',   'gravel',      '', 'none')
 
-call s:HL('mailQuoted1', 'gravel', '', 'none')
-call s:HL('mailQuoted2', 'dress', '', 'none')
-call s:HL('mailQuoted3', 'dirtyblonde', '', 'none')
-call s:HL('mailQuoted4', 'orange', '', 'none')
-call s:HL('mailQuoted5', 'lime', '', 'none')
+    call s:HL('mailQuoted1', 'gravel',      '', 'none')
+    call s:HL('mailQuoted2', 'dress',       '', 'none')
+    call s:HL('mailQuoted3', 'dirtyblonde', '', 'none')
+    call s:HL('mailQuoted4', 'orange',      '', 'none')
+    call s:HL('mailQuoted5', 'lime',        '', 'none')
 
-" }}}
-" Markdown {{{
+    " }}}
+    " Markdown {{{
 
-call s:HL('markdownHeadingRule', 'lightgravel', '', 'bold')
-call s:HL('markdownHeadingDelimiter', 'lightgravel', '', 'bold')
-call s:HL('markdownOrderedListMarker', 'lightgravel', '', 'bold')
-call s:HL('markdownListMarker', 'lightgravel', '', 'bold')
-call s:HL('markdownItalic', 'snow', '', 'bold')
-call s:HL('markdownBold', 'snow', '', 'bold')
-call s:HL('markdownH1', 'orange', '', 'bold')
-call s:HL('markdownH2', 'lime', '', 'bold')
-call s:HL('markdownH3', 'lime', '', 'none')
-call s:HL('markdownH4', 'lime', '', 'none')
-call s:HL('markdownH5', 'lime', '', 'none')
-call s:HL('markdownH6', 'lime', '', 'none')
-call s:HL('markdownLinkText', 'toffee', '', 'underline')
-call s:HL('markdownIdDeclaration', 'toffee')
-call s:HL('markdownAutomaticLink', 'toffee', '', 'bold')
-call s:HL('markdownUrl', 'toffee', '', 'bold')
-call s:HL('markdownUrldelimiter', 'lightgravel', '', 'bold')
-call s:HL('markdownLinkDelimiter', 'lightgravel', '', 'bold')
-call s:HL('markdownLinkTextDelimiter', 'lightgravel', '', 'bold')
-call s:HL('markdownCodeDelimiter', 'dirtyblonde', '', 'bold')
-call s:HL('markdownCode', 'dirtyblonde', '', 'none')
-call s:HL('markdownCodeBlock', 'dirtyblonde', '', 'none')
+    call s:HL('markdownHeadingRule',       'lightgravel', '', 'bold')
+    call s:HL('markdownHeadingDelimiter',  'lightgravel', '', 'bold')
+    call s:HL('markdownOrderedListMarker', 'lightgravel', '', 'bold')
+    call s:HL('markdownListMarker',        'lightgravel', '', 'bold')
+    call s:HL('markdownItalic',            'snow',        '', 'bold')
+    call s:HL('markdownBold',              'snow',        '', 'bold')
+    call s:HL('markdownH1',                'orange',      '', 'bold')
+    call s:HL('markdownH2',                'lime',        '', 'bold')
+    call s:HL('markdownH3',                'lime',        '', 'none')
+    call s:HL('markdownH4',                'lime',        '', 'none')
+    call s:HL('markdownH5',                'lime',        '', 'none')
+    call s:HL('markdownH6',                'lime',        '', 'none')
+    call s:HL('markdownLinkText',          'toffee',      '', 'underline')
+    call s:HL('markdownIdDeclaration',     'toffee')
+    call s:HL('markdownAutomaticLink',     'toffee',      '', 'bold')
+    call s:HL('markdownUrl',               'toffee',      '', 'bold')
+    call s:HL('markdownUrldelimiter',      'lightgravel', '', 'bold')
+    call s:HL('markdownLinkDelimiter',     'lightgravel', '', 'bold')
+    call s:HL('markdownLinkTextDelimiter', 'lightgravel', '', 'bold')
+    call s:HL('markdownCodeDelimiter',     'dirtyblonde', '', 'bold')
+    call s:HL('markdownCode',              'dirtyblonde', '', 'none')
+    call s:HL('markdownCodeBlock',         'dirtyblonde', '', 'none')
 
-" }}}
-" MySQL {{{
+    " }}}
+    " MySQL {{{
 
-call s:HL('mysqlSpecial', 'dress', '', 'bold')
+    call s:HL('mysqlSpecial', 'dress', '', 'bold')
 
-" }}}
-" Python {{{
+    " }}}
+    " Python {{{
 
-hi def link pythonOperator Operator
-call s:HL('pythonBuiltin',     'dress')
-call s:HL('pythonBuiltinObj',  'dress')
-call s:HL('pythonBuiltinFunc', 'dress')
-call s:HL('pythonEscape',      'dress')
-call s:HL('pythonException',   'lime', '', 'bold')
-call s:HL('pythonExceptions',  'lime', '', 'none')
-call s:HL('pythonPrecondit',   'lime', '', 'none')
-call s:HL('pythonDecorator',   'taffy', '', 'none')
-call s:HL('pythonRun',         'gravel', '', 'bold')
-call s:HL('pythonCoding',      'gravel', '', 'bold')
+    hi def link pythonOperator Operator
+    call s:HL('pythonBuiltin',     'dress')
+    call s:HL('pythonBuiltinObj',  'dress')
+    call s:HL('pythonBuiltinFunc', 'dress')
+    call s:HL('pythonEscape',      'dress')
+    call s:HL('pythonException',   'lime', '', 'bold')
+    call s:HL('pythonExceptions',  'lime', '', 'none')
+    call s:HL('pythonPrecondit',   'lime', '', 'none')
+    call s:HL('pythonDecorator',   'taffy', '', 'none')
+    call s:HL('pythonRun',         'gravel', '', 'bold')
+    call s:HL('pythonCoding',      'gravel', '', 'bold')
 
-" }}}
-" Vim {{{
+    " }}}
+    " Vim {{{
 
-call s:HL('VimCommentTitle', 'lightgravel', '', 'bold')
+    call s:HL('VimCommentTitle', 'lightgravel', '', 'bold')
 
-call s:HL('VimMapMod',    'dress', '', 'none')
-call s:HL('VimMapModKey', 'dress', '', 'none')
-call s:HL('VimNotation', 'dress', '', 'none')
-call s:HL('VimBracket', 'dress', '', 'none')
+    call s:HL('VimMapMod',    'dress', '', 'none')
+    call s:HL('VimMapModKey', 'dress', '', 'none')
+    call s:HL('VimNotation',  'dress', '', 'none')
+    call s:HL('VimBracket',   'dress', '', 'none')
 
-" }}}
+    " }}}
 
-" }}}
+    " }}}
 
 " vim: set foldmethod=marker:
